@@ -2,7 +2,7 @@ import GalaxyGen
 import os
 from io import BytesIO
 from random import sample
-from flask import Flask, send_file
+from flask import Flask, send_file, current_app
 app = Flask(__name__)
 
 GalaxyGen.setpath(app.root_path)
@@ -10,6 +10,10 @@ GalaxyGen.setpath(app.root_path)
 @app.route('/')
 def hello_world():
   return 'Hello World!'
+  
+@app.route('/galaxy')
+def galaxy():
+  return current_app.send_static_file('galaxy.html')
 
 @app.route('/galaxy/generate/')
 def help():

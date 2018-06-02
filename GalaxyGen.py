@@ -30,6 +30,8 @@ def genGalaxy(systems):
     systems = systems[:30]
 
     for index, system in enumerate(systems):
+        if int(system) > 50:
+            continue
         system = system + '.png'
         tile = Image.open(tilepath + system)
         x = int(x_adj * map[index][0])

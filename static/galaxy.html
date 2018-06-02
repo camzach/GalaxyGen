@@ -1,0 +1,24 @@
+<script>
+function randomTiles() {
+  var arr = []
+  while(arr.length < 30){
+    var randomnumber = (Math.floor(Math.random()*31) + 19).toString();
+    if(arr.indexOf(randomnumber) > -1) continue;
+    arr[arr.length] = randomnumber;
+  }
+  return arr;
+}
+</script>
+Enter tile numbers below
+<br/>
+<textarea id='tiles' rows=15 cols=45>19,20,21,22,23,24,25</textarea>
+<br/>
+<input type="button" 
+  onclick="window.location.href='/galaxy/generate/'+document.getElementById('tiles').value.split(/[,\r\n ]+/).filter(x => x).join(',')"
+  value="Generate!"
+/>
+<br/>
+<input type="button"
+  onclick="window.location.href='galaxy/generate/'+randomTiles().join()"
+  value="Generate Random Galaxy!&#13;&#10;(Warning: almost guaranteed to be absolutely trash)"
+/>
