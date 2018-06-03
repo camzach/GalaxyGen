@@ -1,11 +1,13 @@
 import GalaxyGen
+import BalancedGalaxy
 import os
 from io import BytesIO
 from random import sample
 from flask import Flask, send_file, current_app, request
 app = Flask(__name__)
 
-GalaxyGen.setpath(app.root_path)
+GalaxyGen.init(app.root_path)
+BalancedGalaxy.init(app.root_path)
 
 @app.route('/')
 def hello_world():
@@ -15,14 +17,17 @@ def hello_world():
 def galaxy():
   return current_app.send_static_file('galaxy.html')
 
-@app.route('/galaxy/generate/')
-def help():
-  return 'Please add a comma-delimited list of tile numbers to the URL.'
-
-@app.route('/galaxy/generate/<tiles>')
-def generate(tiles):
+@app.route('/galaxy/generate')
+def generate():
   size = request.args.get('size', default = 1, type = int)
-  systems = tiles.split(',')
+  mode = request.args.get('mode', default = 'random')
+  tiles = request.args.get('tiles')
+  if mode == 'random':
+    systems = list(map(lambda x: str(x), sample(range(19, 51), 30)))
+  if mode == 'tiles':
+    systems = tiles.split(',')
+  if mode == 'balanced':
+    systems = BalancedGalaxy.generateBalancedMap()
   galaxy = GalaxyGen.genGalaxy(systems, size)
   byte_io = BytesIO()
   galaxy.save(byte_io, 'PNG')

@@ -2,7 +2,7 @@ from PIL import Image
 import os
 import math
 
-tilepath = ''
+tilepath = '/Tiles/'
 
 map = [(3, 4), (4, 5), (4, 7), (3, 8), (2, 7), (2, 5),
        (3, 2), (4, 3), (5, 4), (5, 6), (5, 8), (4, 9), (3, 10), (2, 9), (1, 8), (1, 6), (1, 4), (2, 3),
@@ -10,9 +10,9 @@ map = [(3, 4), (4, 5), (4, 7), (3, 8), (2, 7), (2, 5),
 
 h, w = 490, 530
 
-def setpath(rootpath):
+def init(rootpath):
     global tilepath
-    tilepath = rootpath + '/Tiles/'
+    tilepath = rootpath + tilepath
 
 def addMecatol(galaxy, size):
     tilewidth = w
