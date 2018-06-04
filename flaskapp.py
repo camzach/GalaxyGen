@@ -3,7 +3,7 @@ import BalancedGalaxy
 import os
 from io import BytesIO
 from random import sample
-from flask import Flask, send_file, current_app, request
+from flask import Flask, send_file, current_app, request, redirect
 app = Flask(__name__)
 
 GalaxyGen.init(app.root_path)
@@ -28,6 +28,7 @@ def generate():
     systems = tiles.split(',')
   if mode == 'balanced':
     systems = BalancedGalaxy.generateBalancedMap()
+    return '/galaxy/generate?mode=tiles&tiles=' + ','.join(systems) + '&size=' + str(size)
   galaxy = GalaxyGen.genGalaxy(systems, size)
   byte_io = BytesIO()
   galaxy.save(byte_io, 'PNG')

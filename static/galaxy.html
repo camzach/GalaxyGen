@@ -8,6 +8,21 @@ function randomTiles() {
   }
   return arr;
 }
+
+function setImageToBalancedGalaxy() {
+	// Feature detection
+	if (!window.XMLHttpRequest) return;
+	// Create new request
+	var xhr = new XMLHttpRequest();
+	// Setup callback
+	xhr.onload = function() {
+		document.getElementById('result').src = this.responseXML.body.innerHTML.replace(/&amp;/g, '&');
+	}
+	// Get the HTML
+	xhr.open('GET', '/galaxy/generate?mode=balanced&size=0');
+	xhr.responseType = 'document';
+	xhr.send();
+}
 </script>
 <style>
 * {
@@ -38,7 +53,7 @@ Enter tile numbers below
 />
 <br/>
 <input type="button"
-  onclick="getElementById('result').src='galaxy/generate?mode=balanced&size=0&' + new Date().getTime()"
+  onclick="setImageToBalancedGalaxy()"
   value="Generate Random Balanced Galaxy"
 />
 <br/>
