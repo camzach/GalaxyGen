@@ -44,8 +44,8 @@ def scoreGalaxy(systems):
         res += sum(tiledef[systems[slicemap[slice][x]]]['res'] for x in range(4, 6)) * 1/2
         res *= 2
         #Influence score = 2*sum of home ing + sum of equidistant inf
-        inf = sum(tiledef[systems[slicemap[slice][x]]]['inf'] for x in range(4)) * 4
-        inf += sum(tiledef[systems[slicemap[slice][x]]]['inf'] for x in range(4, 6)) * 1/2
+        inf = sum(tiledef[systems[slicemap[slice][x]]]['inf'] for x in range(4)) * 2
+        inf += sum(tiledef[systems[slicemap[slice][x]]]['inf'] for x in range(4, 6))
         #Tech score depends on number of tech planets, equidistant count as 1/2
         tech = sum(tiledef[systems[slicemap[slice][x]]]['tech'] for x in range(4))
         tech += sum(tiledef[systems[slicemap[slice][x]]]['tech'] for x in range(4, 6)) * 1/2
@@ -59,7 +59,8 @@ def scoreGalaxy(systems):
         ind = ind - 2 if ind < 3 else 3
         trait = haz + cul + ind
         #Anomaly penalty
-        anom = sum(tiledef[systems[slicemap[slice][x]]]['anom'] for x in range(6))
+        anom = sum(tiledef[systems[slicemap[slice][x]]]['anom'] for x in range(4)) * 4
+        anom += sum(tiledef[systems[slicemap[slice][x]]]['anom'] for x in range(4, 6))
         #Sum the scores
         score = res + inf + tech + trait + anom
         #Append to scores list
@@ -81,7 +82,7 @@ def balanceGalaxy(systems, scores):
                                      tiledef[newSystems[slicemap[slice][x]]]['haz'] +
                                      tiledef[newSystems[slicemap[slice][x]]]['cul'] +
                                      tiledef[newSystems[slicemap[slice][x]]]['ind'] +
-                                     tiledef[newSystems[slicemap[slice][x]]]['anom'] * 300)
+                                     tiledef[newSystems[slicemap[slice][x]]]['anom'])
         #Score equidistant systems
         tileContributions.append(tiledef[newSystems[slicemap[slice][4]]]['res'] +
                                  tiledef[newSystems[slicemap[slice][4]]]['inf'] / 2+
@@ -150,7 +151,7 @@ def generateBalancedGalaxy(balancingfactor = 2000):
     x = 0
     systems, scores = generateGalaxy()
     while x < balancingfactor:
-        system, scores = balanceGalaxy(systems, scores)
+        systems, scores = balanceGalaxy(systems, scores)
         if checkMapValidity(systems):
             x += 1
     return [str(x) for x in systems]
