@@ -27,8 +27,8 @@ def generate():
   if mode == 'tiles':
     systems = tiles.split(',')
   if mode == 'balanced':
-    systems = BalancedGalaxy.generateBalancedMap()
-    return '/galaxy/generate?mode=tiles&tiles=' + ','.join(systems) + '&size=' + str(size)
+    systems = ','.join(BalancedGalaxy.generateBalancedGalaxy())
+    return '/galaxy/generate?mode=tiles&tiles=' + systems + '&size=' + str(size)
   galaxy = GalaxyGen.genGalaxy(systems, size)
   byte_io = BytesIO()
   galaxy.save(byte_io, 'PNG')
@@ -38,7 +38,7 @@ def generate():
 @app.route('/galaxy/fullrandom')
 def fullrandom():
   size = request.args.get('size', default = 1, type = int)
-  systems = list(map(lambda x: str(x), sample(range(19, 51), 30)))
+  systems = sample([str(x) for x in range(19, 51)], 30)
   galaxy = GalaxyGen.genGalaxy(systems, size)
   byte_io = BytesIO()
   galaxy.save(byte_io, 'PNG')
