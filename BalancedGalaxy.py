@@ -158,6 +158,3 @@ def generateBalancedGalaxy(balancingfactor = 2000):
             systems = newSystems
             scores = newScores
     return [str(x) for x in systems]
-    
-init('.')
-systems = generateBalancedGalaxy()
