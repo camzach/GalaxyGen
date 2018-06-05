@@ -120,8 +120,8 @@ def balanceGalaxy(systems, scores):
     newRange = (max(newScores[slice]['score'] for slice in range(6)) -
                 min(newScores[slice]['score'] for slice in range(6)))
     if newRange < oldRange:
-        return newSystems, newScores, True
-    return systems, scores, False
+        return newSystems, newScores
+    return systems, scores
 
 
 def checkMapValidity(systems):
@@ -152,13 +152,12 @@ def generateBalancedGalaxy(balancingfactor = 2000):
     failures = 0
     systems, scores = generateGalaxy()
     while x < balancingfactor:
-        systems, scores, success = balanceGalaxy(systems, scores)
-        if checkMapValidity(systems):
+        newSystems, newScores = balanceGalaxy(systems, scores)
+        if checkMapValidity(newSystems):
             x += 1
-        if not success:
-            failures += 1
-            if failures == 150:
-                x = 0
-                failures = 0
-                systems, scores = generateGalaxy()
+            systems = newSystems
+            scores = newScores
     return [str(x) for x in systems]
+    
+init('.')
+systems = generateBalancedGalaxy()
