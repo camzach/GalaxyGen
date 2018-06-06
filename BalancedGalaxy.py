@@ -101,6 +101,10 @@ def balanceGalaxy(systems, scores):
                         ((x,) * int(tileContributions[x]) for x in range(5))
                         for i in sub]
         else:
+            #Reverse probabilities
+            tileContributions = sorted(list(zip(tileContributions, [0, 1, 2, 3, 4])), key = lambda tup: tup[0])
+            tileContributions = sorted(list(zip([tup[0] for tup in tileContributions], [tup[1] for tup in tileContributions][::-1])), key = lambda tup: tup[1])
+            tileContributions = [tup[0] for tup in tileContributions]
             probDist = [i for sub in
                         ((x,) * int(tileContributions[4 - x]) for x in range(5))
                         for i in sub]
